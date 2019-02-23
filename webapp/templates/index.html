@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+	{% if current_user.is_authenticated %}
+	    <h1>Hi, {{ current_user.username }}!</h1>
+	    {{ current_user.email }}
+	    {% for post in posts %}
+	    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+	    {% endfor %}
+	{% else %}
+		<div><h2> Welcome to the User feeds page. </h2>
+			<p>Register if you have not registered yet and start posting 
+			your ideas. </p>
+		</div>
+	{% endif %}
+
+{% endblock %}

@@ -1,0 +1,44 @@
+version: '3'
+services:
+  mongo:
+    image: "mongo:2.6"
+    ports:
+     - "27017:27017"
+    volumes:
+     - ./data:/data/db
+    networks:
+     - database_network  
+  webapp:
+    build: .
+
+    restart: always
+    # after introducing nginx we don't need the ports
+    # ports:
+    #  - "5000:5000"
+    volumes:
+     - ".:/home/support/appservice"
+    networks:
+     - webapp_network
+     - database_network
+    depends_on:
+      - mongo
+
+  nginx:
+    image: "nginx"
+    ports:
+     - "8000:80"
+    volumes:
+     - ./config/nginx/:/etc/nginx/conf.d
+    depends_on:
+      - webapp
+    networks:
+     - webapp_network
+networks:
+  webapp_network:
+    driver: "bridge"
+  database_network:
+    driver: "bridge"
+    # environment: 
+    #  MONGO_INITDB_ROOT_USERNAME: root
+    #  MONGO_INITDB_ROOT_PASSWORD: example
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <title>User Feeds</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+      <style>
+              a:link {
+            color: green;
+        }
+
+        /* visited link */
+        a:visited {
+            color: blue;
+        }
+
+        /* mouse over link */
+        a:hover {
+            color: red;
+        }
+
+        /* selected link */
+        a:active {
+            color: yellow;
+        } 
+    </style>
+    </head>
+    <body>
+      {% if current_user.is_authenticated %}
+      <div class="container">
+        <ul class="nav nav-pills">
+
+          <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('home_app.index') }}">Home </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user_app.register') }}">Register User </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('user_app.logout') }}">Logout </a>
+          </li>          
+        </ul>
+      </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li> {{message}}</li>
+            {% endfor%}
+          </ul>
+          {% endif %}
+        {% endwith %}
+      {% else %}
+        <div><a href="{{ url_for('user_app.login') }}">Sign In</a></div>
+      {% endif %}
+        {% block content %}{% endblock %}
+      }
+      }
+    </body>
+</html>
